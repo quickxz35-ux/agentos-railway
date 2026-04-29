@@ -1,6 +1,6 @@
 from textwrap import dedent
 
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.team.team import Team
 from agno.tools.reasoning import ReasoningTools
 
@@ -49,7 +49,7 @@ instructions = dedent("""\
 # ============================================================================
 finance_team = Team(
     name="Finance Team",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     members=[finance_agent, research_agent],
     tools=[ReasoningTools(add_instructions=True)],
     description=description,
