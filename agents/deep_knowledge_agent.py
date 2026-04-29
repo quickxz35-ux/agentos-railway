@@ -3,7 +3,7 @@ from textwrap import dedent
 from agno.agent import Agent
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.tools.reasoning import ReasoningTools
 from agno.vectordb.pgvector import PgVector, SearchType
 
@@ -35,7 +35,7 @@ knowledge = Knowledge(
 # ============================================================================
 deep_knowledge_agent = Agent(
     name="Deep Knowledge Agent",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     knowledge=knowledge,
     tools=[ReasoningTools(add_instructions=True)],
     description=dedent("""\
