@@ -1,7 +1,7 @@
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.tools.yfinance import YFinanceTools
 
 from db.demo_db import demo_db
@@ -47,7 +47,7 @@ instructions = dedent("""\
 finance_agent = Agent(
     name="Finance Agent",
     role="Handle financial data requests and market analysis",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     tools=[YFinanceTools()],
     description=description,
     instructions=instructions,
