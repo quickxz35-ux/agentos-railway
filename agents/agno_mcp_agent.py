@@ -1,7 +1,7 @@
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.tools.mcp import MCPTools
 
 from db.demo_db import demo_db
@@ -62,7 +62,7 @@ instructions = dedent(
 # ============================================================================
 agno_mcp_agent = Agent(
     name="Agno MCP Agent",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     tools=[MCPTools(transport="streamable-http", url="https://docs.agno.com/mcp")],
     description=description,
     instructions=instructions,
