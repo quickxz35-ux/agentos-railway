@@ -6,7 +6,7 @@ from agno.agent import Agent
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
 from agno.knowledge.reader.text_reader import TextReader
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.utils.log import logger
 from agno.vectordb.pgvector import PgVector, SearchType
@@ -249,7 +249,7 @@ GLOBAL RULES
 # =============================================================================
 self_learning_research_agent = Agent(
     name="Self Learning Research Agent",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     system_message=system_message,
     db=demo_db,
     knowledge=research_snapshots,
