@@ -1,7 +1,7 @@
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.tools.youtube import YouTubeTools
 
 from db.demo_db import demo_db
@@ -26,7 +26,7 @@ instructions = dedent("""
 # ============================================================================
 youtube_agent = Agent(
     name="YouTube Agent",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     tools=[YouTubeTools()],
     description=description,
     instructions=instructions,
