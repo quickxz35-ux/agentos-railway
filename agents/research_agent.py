@@ -1,7 +1,7 @@
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 from db.demo_db import demo_db
@@ -33,7 +33,7 @@ instructions = dedent("""\
 research_agent = Agent(
     name="Research Agent",
     role="Assist with research and information synthesis",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     tools=[DuckDuckGoTools()],
     instructions=instructions,
     add_history_to_context=True,
