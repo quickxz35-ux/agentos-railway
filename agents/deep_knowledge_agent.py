@@ -3,7 +3,7 @@ from textwrap import dedent
 from agno.agent import Agent
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
-from agno.models.openai import OpenAIResponses
+from agno.models.nvidia import Nvidia
 from agno.tools.reasoning import ReasoningTools
 from agno.vectordb.pgvector import PgVector, SearchType
 
@@ -19,7 +19,11 @@ knowledge = Knowledge(
         db_url=get_db_url(),
         table_name="deep_knowledge",
         search_type=SearchType.hybrid,
-        embedder=OpenAIEmbedder(id="text-embedding-3-small"),
+        embedder=OpenAIEmbedder(
+            id="nvidia/nv-embedqa-e5-v5",
+            base_url="https://integrate.api.nvidia.com/v1",
+            dimensions=1024,
+        ),
     ),
     # 10 results returned on query
     max_results=10,
@@ -31,7 +35,7 @@ knowledge = Knowledge(
 # ============================================================================
 deep_knowledge_agent = Agent(
     name="Deep Knowledge Agent",
-    model=OpenAIResponses(id="gpt-5.2"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     knowledge=knowledge,
     tools=[ReasoningTools(add_instructions=True)],
     description=dedent("""\

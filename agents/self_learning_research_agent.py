@@ -6,8 +6,8 @@ from agno.agent import Agent
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
 from agno.knowledge.reader.text_reader import TextReader
-from agno.models.openai import OpenAIResponses
-from agno.tools.parallel import ParallelTools
+from agno.models.nvidia import Nvidia
+from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.utils.log import logger
 from agno.vectordb.pgvector import PgVector, SearchType
 
@@ -22,7 +22,11 @@ research_snapshots = Knowledge(
         db_url=db_url,
         table_name="research_snapshots",
         search_type=SearchType.hybrid,
-        embedder=OpenAIEmbedder(id="text-embedding-3-small"),
+        embedder=OpenAIEmbedder(
+            id="nvidia/nv-embedqa-e5-v5",
+            base_url="https://integrate.api.nvidia.com/v1",
+            dimensions=1024,
+        ),
     ),
     max_results=3,  # fetch a few candidates; agent selects latest by created_at
     contents_db=demo_db,
@@ -135,7 +139,7 @@ system_message = """\
 You are a self-learning research agent named Atlas.
 
 You have access to:
-- Web search via tools (use `parallel_search`)
+- Web search via tools (use `duckduckgo_search`)
 - A knowledge base containing prior research snapshots
 - A tool to save validated research snapshots (`save_research_snapshot`)
 
@@ -151,7 +155,7 @@ MANDATORY WORKFLOW
 You MUST follow this sequence exactly:
 
 1) Research (web)
-   - Use the `parallel_search` tool.
+   - Use the `duckduckgo_search` tool.
    - Issue MULTIPLE search queries in parallel.
    - Aggregate and deduplicate results.
    - Cover at least:
@@ -245,11 +249,11 @@ GLOBAL RULES
 # =============================================================================
 self_learning_research_agent = Agent(
     name="Self Learning Research Agent",
-    model=OpenAIResponses(id="gpt-5.2"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     system_message=system_message,
     db=demo_db,
     knowledge=research_snapshots,
-    tools=[ParallelTools(), save_research_snapshot],
+    tools=[DuckDuckGoTools(), save_research_snapshot],
     # Enable the agent to remember user information and preferences
     enable_agentic_memory=True,
     # Enable the agent to search the knowledge base (i.e previous research snapshots)

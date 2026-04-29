@@ -1,7 +1,7 @@
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.anthropic import Claude
+from agno.models.nvidia import Nvidia
 from agno.tools.mcp import MCPTools
 
 from db.demo_db import demo_db
@@ -62,7 +62,7 @@ instructions = dedent(
 # ============================================================================
 agno_mcp_agent = Agent(
     name="Agno MCP Agent",
-    model=Claude(id="claude-sonnet-4-5"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     tools=[MCPTools(transport="streamable-http", url="https://docs.agno.com/mcp")],
     description=description,
     instructions=instructions,

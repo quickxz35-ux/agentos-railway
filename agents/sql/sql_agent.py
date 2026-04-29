@@ -5,7 +5,7 @@ from agno.agent import Agent
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
 from agno.knowledge.reader.text_reader import TextReader
-from agno.models.anthropic import Claude
+from agno.models.nvidia import Nvidia
 from agno.tools.reasoning import ReasoningTools
 from agno.tools.sql import SQLTools
 from agno.utils.log import logger
@@ -24,7 +24,11 @@ sql_agent_knowledge = Knowledge(
         db_url=get_db_url(),
         table_name="sql_agent_knowledge",
         search_type=SearchType.hybrid,
-        embedder=OpenAIEmbedder(id="text-embedding-3-small"),
+        embedder=OpenAIEmbedder(
+            id="nvidia/nv-embedqa-e5-v5",
+            base_url="https://integrate.api.nvidia.com/v1",
+            dimensions=1024,
+        ),
     ),
     # 5 references are added to the prompt
     max_results=5,
@@ -258,7 +262,7 @@ If the user asks what data is available, list table names directly from the sema
 # ============================================================================
 sql_agent = Agent(
     name="SQL Agent",
-    model=Claude(id="claude-sonnet-4-5"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     db=demo_db,
     knowledge=sql_agent_knowledge,
     system_message=system_message,

@@ -2,10 +2,9 @@ from textwrap import dedent
 from typing import Dict, List, Optional
 
 from agno.agent import Agent
-from agno.models.openai import OpenAIChat
+from agno.models.nvidia import Nvidia
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.hackernews import HackerNewsTools
-from agno.tools.parallel import ParallelTools
 from agno.tools.reasoning import ReasoningTools
 from agno.workflow import Step, Workflow
 from agno.workflow.parallel import Parallel
@@ -19,7 +18,7 @@ from db.demo_db import demo_db
 hn_researcher = Agent(
     name="HN Researcher",
     role="Research trending topics and discussions on Hacker News",
-    model=OpenAIChat(id="gpt-5-mini"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     tools=[HackerNewsTools()],
     description=dedent("""\
         You are the HN Researcher — an agent that searches Hacker News for relevant discussions,
@@ -39,7 +38,7 @@ hn_researcher = Agent(
 web_researcher = Agent(
     name="Web Researcher",
     role="Search the web for current information and sources",
-    model=OpenAIChat(id="gpt-5-mini"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     tools=[DuckDuckGoTools()],
     description=dedent("""\
         You are the Web Researcher — an agent that searches the web for up-to-date information,
@@ -59,8 +58,8 @@ web_researcher = Agent(
 parallel_researcher = Agent(
     name="Parallel Researcher",
     role="Perform deep semantic search for high-quality content",
-    model=OpenAIChat(id="gpt-5-mini"),
-    tools=[ParallelTools(enable_search=True, enable_extract=True)],
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    tools=[DuckDuckGoTools()],
     description=dedent("""\
         You are the Parallel Researcher — an agent that uses semantic search to find
         high-quality, relevant content from across the web.
@@ -82,7 +81,7 @@ parallel_researcher = Agent(
 writer = Agent(
     name="Writer",
     role="Synthesize research into compelling content",
-    model=OpenAIChat(id="gpt-5-mini"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     tools=[ReasoningTools()],
     description=dedent("""\
         You are the Writer — an agent that synthesizes research findings into clear,

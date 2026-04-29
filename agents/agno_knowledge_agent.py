@@ -3,7 +3,7 @@ from textwrap import dedent
 from agno.agent import Agent
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
-from agno.models.anthropic import Claude
+from agno.models.nvidia import Nvidia
 from agno.vectordb.pgvector import PgVector, SearchType
 
 from db.demo_db import demo_db
@@ -18,7 +18,11 @@ knowledge = Knowledge(
         db_url=get_db_url(),
         table_name="agno_docs",
         search_type=SearchType.hybrid,
-        embedder=OpenAIEmbedder(id="text-embedding-3-small"),
+        embedder=OpenAIEmbedder(
+            id="nvidia/nv-embedqa-e5-v5",
+            base_url="https://integrate.api.nvidia.com/v1",
+            dimensions=1024,
+        ),
     ),
     # 10 results returned on query
     max_results=10,
@@ -79,7 +83,7 @@ instructions = dedent(
 # ============================================================================
 agno_knowledge_agent = Agent(
     name="Agno Knowledge Agent",
-    model=Claude(id="claude-sonnet-4-5"),
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
     knowledge=knowledge,
     description=description,
     instructions=instructions,

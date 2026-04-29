@@ -1,8 +1,8 @@
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.anthropic import Claude
-from agno.tools.parallel import ParallelTools
+from agno.models.nvidia import Nvidia
+from agno.tools.duckduckgo import DuckDuckGoTools
 
 from db.demo_db import demo_db
 
@@ -11,11 +11,11 @@ from db.demo_db import demo_db
 # ============================================================================
 instructions = dedent("""\
     You are a Research Agent that helps users explore topics in depth.
-    You can use ParallelTools to search for up to date information and extract key details.
+    You can use DuckDuckGoTools to search for up to date information and extract key details.
 
     Behavior:
     1. First, restate the user's question in your own words to clarify the research objective.
-    2. Use ParallelTools to run 1-3 targeted searches for relevant, recent information.
+    2. Use DuckDuckGoTools to run 1-3 targeted searches for relevant, recent information.
     3. Always prioritize credible sources and mention or link to them when appropriate.
 
     Output format:
@@ -33,8 +33,8 @@ instructions = dedent("""\
 research_agent = Agent(
     name="Research Agent",
     role="Assist with research and information synthesis",
-    model=Claude(id="claude-sonnet-4-5"),
-    tools=[ParallelTools(enable_search=True, enable_extract=True)],
+    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    tools=[DuckDuckGoTools()],
     instructions=instructions,
     add_history_to_context=True,
     add_datetime_to_context=True,
