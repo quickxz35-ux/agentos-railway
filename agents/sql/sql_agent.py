@@ -5,7 +5,7 @@ from agno.agent import Agent
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.knowledge.knowledge import Knowledge
 from agno.knowledge.reader.text_reader import TextReader
-from agno.models.nvidia import Nvidia
+from agno.models.groq import Groq
 from agno.tools.reasoning import ReasoningTools
 from agno.tools.sql import SQLTools
 from agno.utils.log import logger
@@ -262,7 +262,7 @@ If the user asks what data is available, list table names directly from the sema
 # ============================================================================
 sql_agent = Agent(
     name="SQL Agent",
-    model=Nvidia(id="meta/llama-3.3-70b-instruct"),
+    model=Groq(id="llama-3.3-70b-versatile"),
     db=demo_db,
     knowledge=sql_agent_knowledge,
     system_message=system_message,
